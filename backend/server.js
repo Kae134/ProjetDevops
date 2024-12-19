@@ -1,32 +1,25 @@
-const express = require('express');
-const { Pool } = require('pg');
-const dotenv = require('dotenv');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import taskListRoute from './routes/taskListRoute.js';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-});
-
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('Backend is running!');
+  res.send({
+    message: 'API is running',
+    TaskList: `http://localhost:${port}/api/v1/tasklist`,
+  });
 });
 
+app.use('/api/v1/tasklist', taskListRoute);
 
-app.get('/api', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT NOW()');
-        res.json(result.rows);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
-
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
