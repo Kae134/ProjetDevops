@@ -26,8 +26,15 @@ jobs:
           npm install
           npm run build
 
-      - name: Run backend tests
+      - name: Start Backend Server
         working-directory: ./backend
         run: |
-          npm install
-          node server.js
+          nohup node server.js &
+          
+      - name: Sleep a bit so the server start
+        run: |
+          sleep 5
+
+      - name: Check Backend
+        run: |
+          curl -f http://localhost:3000 || exit 1
