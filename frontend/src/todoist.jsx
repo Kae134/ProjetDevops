@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { FaRegTrashCan } from "react-icons/fa6";
+
 import './App.css'
 
 const TodoApp = () => {
@@ -71,7 +73,8 @@ const TodoApp = () => {
           >
             {task.text}
             <span onClick={(e) => { e.stopPropagation(); removeTask(index); }}>
-              <i className="fa-solid fa-trash-can"></i>
+              <i><FaRegTrashCan />
+              </i>
             </span>
           </li>
         ))}
