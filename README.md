@@ -1,5 +1,11 @@
 # ProjetDevops
 
+## Description
+...
+
+## Prérequis
+Avant de commencer, assurez-vous que vous avez installé Docker et Docker Compose sur votre machine.
+
 ## Installation
 1. Clonez ce dépôt :
 
@@ -14,3 +20,27 @@ cd ProjetDevops
 DATABASE_URL=postgresql://postgres:password@db:5432/postgres
 PORT=3000
 ```
+
+## Commande docker
+
+1. Construisez et démarrez les conteneurs :
+
+```bash
+docker-compose up --build
+```
+Cette commande va :
+
+- Construire les images Docker pour le backend et le frontend.
+- Lancer trois services :
+    - backend : Votre application backend Node.js.
+    - frontend : Votre application frontend React.
+    - db : Un conteneur PostgreSQL pour la base de données.
+Vous pouvez accéder à l'application: 
+ - backend sur `http://localhost:3000`
+ - frontend sur `http://localhost:5173`
+
+## API Backend
+Le backend expose une API RESTful avec les routes suivantes :
+- GET /api/v1/tasklist : Récupère toutes les tâches.
+- POST /api/v1/tasklist : Crée une nouvelle tâche.
+
