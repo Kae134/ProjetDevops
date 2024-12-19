@@ -20,6 +20,10 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install PM2
+        run: |
+          npm install -g pm2
+
       - name: Install dependencies and run tests
         working-directory: ./frontend
         run: |
@@ -29,10 +33,11 @@ jobs:
       - name: Start Backend Server
         working-directory: ./backend
         run: |
-          npm i
-          npm start
+          pm2 start dist/server.js --name backend
+          echo "Backend server started"
 
-      - name: Let the backend start
+      - name: Wait for Backend to Start
         run: |
-          sleep 5
-          curl -f http://localhost:3000/
+          for i in {1..10}; do
+            curl -f http://localhost:3000/health && break || sleep 5;
+          done
