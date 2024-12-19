@@ -23,13 +23,14 @@ jobs:
       - name: Install dependencies and run tests
         working-directory: ./frontend
         run: |
-          npm install
+          npm i
           npm run build
 
       - name: Start Backend Server
         working-directory: ./backend
         run: |
-          nohup node server.js &
+          npm i
+          node server.js
           
       - name: Sleep a bit so the server start
         run: |
@@ -37,4 +38,4 @@ jobs:
 
       - name: Check Backend
         run: |
-          curl -f http://localhost:3000 || exit 1
+          curl -f http://localhost:3000/api/v1 || exit 1
