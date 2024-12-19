@@ -55,6 +55,6 @@ jobs:
     steps:
       - name: Deploy containers
         run: |
-          docker ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}
-          docker ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
+          docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}
+          docker pull ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
           docker-compose up -d
