@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  frontend:
+    image: ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}
+    ports:
+      - "3000:3000"
+  backend:
+    image: ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
+    ports:
+      - "8000:8000"
