@@ -53,6 +53,11 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+        
       - name: Deploy containers
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}
