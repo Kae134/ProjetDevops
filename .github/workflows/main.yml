@@ -29,7 +29,8 @@ jobs:
       - name: Start Backend Server
         working-directory: ./backend
         run: |
-          nohup node server.js
+          npm i
+          npm start
 
       - name: Let the backend start
         run: |
