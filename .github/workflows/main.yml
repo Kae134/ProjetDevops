@@ -29,6 +29,9 @@ jobs:
       - name: Start Backend Server
         working-directory: ./backend
         run: |
-          npm i
-          node server.js
-          curl -f http://localhost:3000/api/v1 || exit 1
+          nohup node server.js
+
+      - name: Let the backend start
+        run: |
+          sleep 5
+          curl -f http://localhost:3000/
