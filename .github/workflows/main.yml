@@ -41,10 +41,10 @@ jobs:
   
         - name: Build and push Frontend image
           run: |
-            docker build -t your-dockerhub-username/frontend:${{ github.sha }} ./frontend
-            docker push your-dockerhub-username/frontend:${{ github.sha }}
+            docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }} ./frontend
+            docker push ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}
   
         - name: Build and push Backend image
           run: |
-            docker build -t your-dockerhub-username/backend:${{ github.sha }} ./backend
-            docker push your-dockerhub-username/backend:${{ github.sha }}
+            docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }} ./backend
+            docker push ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
