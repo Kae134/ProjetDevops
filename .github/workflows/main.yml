@@ -62,4 +62,4 @@ jobs:
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}
           docker pull ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
-          docker-compose -f deployment/docker-compose.yml up -d
+          docker-compose -f ../../deployment/docker-compose.yml up -d
