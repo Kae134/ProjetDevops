@@ -25,6 +25,12 @@ jobs:
         run: |
           npm i
           npm run build
+
+      - name: Install dependencies and run tests
+        working-directory: ./backend
+        run: |
+          npm i
+          npm test
           
   build-and-push:
       needs: test
