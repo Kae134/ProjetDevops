@@ -49,7 +49,7 @@ Lance les services sans reconstruire les images, ce qui est plus rapide si vous 
 ```bash
 docker-compose up -d
 ```
-`Cette` commande lance les services en arrière-plan (mode détaché), vous permettant d'utiliser votre terminal pour d'autres commandes.
+Cette commande lance les services en arrière-plan (mode détaché), vous permettant d'utiliser votre terminal pour d'autres commandes.
 
 4. Arrêter les conteneurs
 ```bash
