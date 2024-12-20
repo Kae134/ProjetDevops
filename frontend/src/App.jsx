@@ -1,27 +1,21 @@
-import { useState } from 'react';
-import TodoForm from './components/TodoForm';
-import TodoList from './components/TodoList';
-import './App.css';
+import React, { useState } from 'react';
+import TaskList from './components/TaskList';
+import TaskForm from './components/TaskForm';
 
-function App() {
-  const [todos, setTodos] = useState([]);
+const App = () => {
+  const [tasks, setTasks] = useState([]);
 
-  const addTodo = (text) => {
-    const newTodo = { id: Date.now(), text };
-    setTodos([...todos, newTodo]);
-  };
-
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const handleTaskAdded = (newTask) => {
+    setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
   return (
-    <div className="App">
-      <h1>Ma TodoList</h1>
-      <TodoForm addTodo={addTodo} />
-      <TodoList todos={todos} deleteTodo={deleteTodo} />
+    <div>
+      <h1>To-Do List</h1>
+      <TaskForm onTaskAdded={handleTaskAdded} />
+      <TaskList />
     </div>
   );
-}
+};
 
 export default App;
