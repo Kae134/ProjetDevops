@@ -1,4 +1,4 @@
-name: main workflow (test)
+name: main workflow
 
 on:
   push:
@@ -25,6 +25,12 @@ jobs:
         run: |
           npm i
           npm run build
+
+      - name: Install dependencies and run tests
+        working-directory: ./backend
+        run: |
+          npm i
+          npm test
           
   build-and-push:
       needs: test
@@ -49,48 +55,48 @@ jobs:
             docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }} ./backend
             docker push ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
 
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
+  # deploy:
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Install Docker Compose
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y docker-compose
         
-      - name: Start services with Docker Compose
-        run: |
-          echo "version: '3.8'" > docker-compose.yml
-          echo "services:" >> docker-compose.yml
-          echo "  backend:" >> docker-compose.yml
-          echo "    image: ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}" >> docker-compose.yml
-          echo "    ports:" >> docker-compose.yml
-          echo "      - '3000:3000'" >> docker-compose.yml
-          echo "    env_file:" >> docker-compose.yml
-          echo "      - .env" >> docker-compose.yml
-          echo "    depends_on:" >> docker-compose.yml
-          echo "      - db" >> docker-compose.yml
-          echo "" >> docker-compose.yml
-          echo "  frontend:" >> docker-compose.yml
-          echo "    image: ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}" >> docker-compose.yml
-          echo "    ports:" >> docker-compose.yml
-          echo "      - '5173:5173'" >> docker-compose.yml
-          echo "" >> docker-compose.yml
-          echo "  db:" >> docker-compose.yml
-          echo "    image: postgres:15" >> docker-compose.yml
-          echo "    environment:" >> docker-compose.yml
-          echo "      POSTGRES_USER: postgres" >> docker-compose.yml
-          echo "      POSTGRES_PASSWORD: password" >> docker-compose.yml
-          echo "      POSTGRES_DB: postgres" >> docker-compose.yml
-          echo "    ports:" >> docker-compose.yml
-          echo "      - '5432:5432'" >> docker-compose.yml
-          echo "    volumes:" >> docker-compose.yml
-          echo "      - pgdata:/var/lib/postgresql/data" >> docker-compose.yml
-          echo "      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro" >> docker-compose.yml
-          echo "" >> docker-compose.yml
-          echo "volumes:" >> docker-compose.yml
-          echo "  pgdata:" >> docker-compose.yml
+  #     - name: Start services with Docker Compose
+  #       run: |
+  #         echo "version: '3.8'" > docker-compose.yml
+  #         echo "services:" >> docker-compose.yml
+  #         echo "  backend:" >> docker-compose.yml
+  #         echo "    image: ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}" >> docker-compose.yml
+  #         echo "    ports:" >> docker-compose.yml
+  #         echo "      - '3000:3000'" >> docker-compose.yml
+  #         echo "    env_file:" >> docker-compose.yml
+  #         echo "      - .env" >> docker-compose.yml
+  #         echo "    depends_on:" >> docker-compose.yml
+  #         echo "      - db" >> docker-compose.yml
+  #         echo "" >> docker-compose.yml
+  #         echo "  frontend:" >> docker-compose.yml
+  #         echo "    image: ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}" >> docker-compose.yml
+  #         echo "    ports:" >> docker-compose.yml
+  #         echo "      - '5173:5173'" >> docker-compose.yml
+  #         echo "" >> docker-compose.yml
+  #         echo "  db:" >> docker-compose.yml
+  #         echo "    image: postgres:15" >> docker-compose.yml
+  #         echo "    environment:" >> docker-compose.yml
+  #         echo "      POSTGRES_USER: postgres" >> docker-compose.yml
+  #         echo "      POSTGRES_PASSWORD: password" >> docker-compose.yml
+  #         echo "      POSTGRES_DB: postgres" >> docker-compose.yml
+  #         echo "    ports:" >> docker-compose.yml
+  #         echo "      - '5432:5432'" >> docker-compose.yml
+  #         echo "    volumes:" >> docker-compose.yml
+  #         echo "      - pgdata:/var/lib/postgresql/data" >> docker-compose.yml
+  #         echo "      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro" >> docker-compose.yml
+  #         echo "" >> docker-compose.yml
+  #         echo "volumes:" >> docker-compose.yml
+  #         echo "  pgdata:" >> docker-compose.yml
 
-      - name: Deploy with Docker Compose
-        run: |
-          docker-compose up -d
+  #     - name: Deploy with Docker Compose
+  #       run: |
+  #         docker-compose up -d
